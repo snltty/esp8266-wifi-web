@@ -30,9 +30,11 @@ void setup() {
   Serial.println();
   setupWifi();
   setupWeb();
+
 }
 /*循环主入口*/
 void loop() {
   loopWifi();
   loopWeb();
+  
 }
