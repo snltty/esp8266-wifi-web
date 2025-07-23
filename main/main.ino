@@ -21,7 +21,12 @@ char password[32] = "";
 char serverip[32] = "";
 char port[32] = "";
 /*是否需要连接wifi，当网页上提交数据后，就可以去尝试连接*/
-boolean needConnect = false;
+boolean needWifi = false;
+boolean needServer = false;
+
+//连接服务端
+WiFiClient client;
+unsigned long clientLastTime = millis();
 
 
 /*启动主入口*/
@@ -36,5 +41,5 @@ void setup() {
 void loop() {
   loopWifi();
   loopWeb();
-  
+  loopServer();
 }

@@ -26,7 +26,8 @@ void loadWifi() {
   Serial.printf("[WIFI] password:%s\n", strlen(password) > 0 ? "********" : "<no password>");
   Serial.printf("[WIFI] server:%s\n", serverip);
   Serial.printf("[WIFI] port:%s\n", port);
-  needConnect = strlen(ssid) > 0;
+  needWifi = strlen(ssid) > 0;
+  needServer = strlen(serverip) > 0 && strlen(port) > 0;
 }
 /*保存wifi配置*/
 void saveWifi() {
@@ -62,8 +63,8 @@ void setupWifi() {
 /*wifi死循环*/
 void loopWifi() {
   /*需要连接fiwi*/
-  if (needConnect) {
-    needConnect = false;
+  if (needWifi) {
+    needWifi = false;
     WiFi.disconnect();
     WiFi.begin(ssid, password);
     int result = WiFi.waitForConnectResult();
@@ -75,5 +76,19 @@ void loopWifi() {
     } else {
       Serial.printf("[WIFI] connect to <%s> fail\n", ssid);
     }
+  }
+  if(needServer && !client.connected() && WiFi.status() == WL_CONNECTED)
+  {
+      needServer = false;   
+      String portStr(port);
+      int portNum = portStr.toInt();
+      if (!client.connect(serverip, portNum)) {
+        Serial.printf("[SERVER] connect to <%s>:<%s> failed\n",serverip,port);
+      }else{
+        Serial.printf("[SERVER] connect to <%s>:<%s> success\n",serverip,port);  
+        clientLastTime = millis();
+        client.setTimeout(5000);
+      }
+      needServer = true;   
   }
 }
