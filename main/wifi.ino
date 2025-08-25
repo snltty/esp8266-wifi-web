@@ -1,3 +1,16 @@
+#include <EEPROM.h>
+/*热点ip*/
+IPAddress apIP(192, 168, 18, 1);
+IPAddress apNetMask(255, 255, 255, 0);
+/*热点名*/
+const char apSSID[] = "snltty8266";
+/*热点密码*/
+const char apPassword[] = "snltty8266";
+/*暂时无用*/
+const char myHostname[] = "snltty";
+
+/*是否需要连接wifi，当网页上提交数据后，就可以去尝试连接*/
+boolean needWifi = false;
 
 /*从rom加载配置*/
 void loadWifi() {
@@ -76,19 +89,5 @@ void loopWifi() {
     } else {
       Serial.printf("[WIFI] connect to <%s> fail\n", ssid);
     }
-  }
-  if(needServer && !client.connected() && WiFi.status() == WL_CONNECTED)
-  {
-      needServer = false;   
-      String portStr(port);
-      int portNum = portStr.toInt();
-      if (!client.connect(serverip, portNum)) {
-        Serial.printf("[SERVER] connect to <%s>:<%s> failed\n",serverip,port);
-      }else{
-        Serial.printf("[SERVER] connect to <%s>:<%s> success\n",serverip,port);  
-        clientLastTime = millis();
-        client.setTimeout(5000);
-      }
-      needServer = true;   
   }
 }

@@ -1,4 +1,24 @@
+//连接服务端
+WiFiClient client;
+unsigned long clientLastTime = millis();
+boolean needServer = false;
+
 void loopServer(){
+
+    if(needServer && !client.connected() && WiFi.status() == WL_CONNECTED)
+    {
+        needServer = false;   
+        String portStr(port);
+        int portNum = portStr.toInt();
+        if (!client.connect(serverip, portNum)) {
+          Serial.printf("[SERVER] connect to <%s>:<%s> failed\n",serverip,port);
+        }else{
+          Serial.printf("[SERVER] connect to <%s>:<%s> success\n",serverip,port);  
+          clientLastTime = millis();
+          client.setTimeout(5000);
+        }
+        needServer = true;   
+    }
     if(client && client.connected())
     {
       if (!client.available()){
