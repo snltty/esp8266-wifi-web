@@ -1,4 +1,6 @@
-//连接服务端
+/*连接服务端，接收服务端的命令，然后做相应的操作*/
+
+
 WiFiClient client;
 unsigned long clientLastTime = millis();
 boolean needServer = false;

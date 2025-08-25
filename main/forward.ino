@@ -1,5 +1,7 @@
+/*转发服务，监听1802，然后转发给192.168.1.2:80*/
+
 #include <vector>
-//转发服务
+
 WiFiServer forwardServer(1802);
 struct ForwardClientSession {
   WiFiClient client;

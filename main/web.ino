@@ -1,6 +1,7 @@
+/*网页服务，用于配网*/
+
 #include <ESP8266WebServer.h>
 
-/*网页服务，用于配网*/
 ESP8266WebServer server(80);
 /*首页*/
 void handleHome() {

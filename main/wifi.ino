@@ -1,3 +1,5 @@
+/*配置和连接wifi*/
+
 #include <EEPROM.h>
 /*热点ip*/
 IPAddress apIP(192, 168, 18, 1);
