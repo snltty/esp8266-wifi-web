@@ -1,12 +1,15 @@
 /*连接服务端，接收服务端的命令，然后做相应的操作*/
 
-
 WiFiClient client;
 unsigned long clientLastTime = millis();
 boolean needServer = false;
 
 void loopServer(){
+    //procServer();
+}
 
+void procServer(){
+    
     if(needServer && !client.connected() && WiFi.status() == WL_CONNECTED)
     {
         needServer = false;   
@@ -19,7 +22,7 @@ void loopServer(){
           clientLastTime = millis();
           client.setTimeout(5000);
         }
-        needServer = true;   
+        needServer = true; 
     }
     if(client && client.connected())
     {
