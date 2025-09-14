@@ -1,5 +1,7 @@
 /*内网穿透*/
 #include <vector>
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
 
 //服务器
 const char* forwardServerHost = "192.168.1.2";
@@ -26,7 +28,8 @@ const char endChar = ',';
 WiFiClient tunnel;
 
 //用户交换数据的状态缓存
-struct ForwardSession {
+struct ForwardSession 
+{
   WiFiClient source;
   WiFiClient target;
 };
@@ -53,7 +56,8 @@ void forward(){
         WiFiClient source;
         WiFiClient target;
         //连接服务器和本地服务
-        if (source.connect(serverIP,serverPort) && target.connect(targetIP, targetPort)){
+        if (source.connect(serverIP,serverPort) && target.connect(targetIP, targetPort))
+        {
             //回复穿透
             source.print(forwardReplyFlag+delimiterString+serverId);
             forwardSessions.push_back({source, target});
@@ -61,14 +65,17 @@ void forward(){
     }
 
     //处理所有连接
-    for(auto& session : forwardSessions){
-        while (session.source.available()) {
+    for(auto& session : forwardSessions)
+    {
+        while (session.source.available())
+        {
           size_t bytesAvailable = session.source.available();
           uint8_t buf[bytesAvailable];
           session.source.read(buf, bytesAvailable);
           session.target.write(buf, bytesAvailable);
         }
-        while (session.target.available()) {
+        while (session.target.available()) 
+        {
           size_t bytesAvailable = session.target.available();
           uint8_t buf[bytesAvailable];
           session.target.read(buf, bytesAvailable);
@@ -82,8 +89,10 @@ void forward(){
     forwardSessions.end());
 }
 
-void setupForward(){
+void setupForward()
+{
 }
-void loopForward(){
-    forward();
+void loopForward()
+{
+    //forward();
 }
